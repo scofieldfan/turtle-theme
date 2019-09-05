@@ -1,10 +1,13 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: {
-        index: "./src/index.js"
+        index: "./src/index.js",
+        themea: "./src/index-a.js",
+        themeb: "./src/index-b.js"
     },
     mode: "development",
     devtool: "inline-source-map",
@@ -42,13 +45,20 @@ module.exports = {
                 }
             },
             {
-                test: /\.css$/,
-                use: ["style-loader", "css-loader"]
+                test: /\.(less|.css)$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // you can specify a publicPath here
+                            // by default it use publicPath in webpackOptions.output
+                            publicPath: "../"
+                        }
+                    },
+                    "css-loader",
+                    "less-loader"
+                ]
             },
-            {
-                test: /\.less$/,
-                use: ["style-loader", "css-loader", "less-loader"]
-            }, // media
             {
                 test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
                 use: {
@@ -66,9 +76,16 @@ module.exports = {
     },
     plugins: [
         new VueLoaderPlugin(),
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        }),
         new HtmlWebpackPlugin({
             template: "./src/index.html",
-            filename: "index.html"
+            filename: "index.html",
+            excludeChunks: ["themea", "themeb"]
         })
     ]
 };
