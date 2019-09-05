@@ -1,0 +1,11 @@
+.idea/
+npm-debug.log*
+.DS_Store
+logs/*
+output/*
+dist/*
+node_modules/*
+pcadmins/*
+copy.sh
+release
+.vscode/*

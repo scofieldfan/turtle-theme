@@ -1,0 +1,57 @@
+.default-theme() {
+    @color: #ddd;
+    @border-color: #000;
+    @background-color: #000;
+}
+.red-theme() {
+    @color: red;
+    @border-color: red;
+    @background-color: red;
+}
+
+#default() {
+    .colors() {
+        @color: #ddd;
+        @border-color: #000;
+        @background-color: #000;
+    }
+}
+#red() {
+    .colors() {
+        @color: red;
+        @border-color: red;
+        @background-color: red;
+    }
+}
+
+@array: default-theme #default.colors(), red-theme #red.colors();
+.creatcolorclasses(@element,@classname,@iterator:1)
+    when(@iterator <= length(@array)) {
+    @theme-name: extract(extract(@array, @iterator), 1);
+    @theme: extract(extract(@array, @iterator), 2);
+    @theme();
+    // #theme.default.colors();
+    //@default-colors();
+    .@{theme-name} {
+        .button {
+            color: @color;
+            background: @background-color;
+        }
+    }
+    /*
+    .@{theme-name} {
+        .@{element} {
+            @{classname}: @theme-color[ @@classname];
+        }
+    }
+    */
+
+    .creatcolorclasses(@element, @classname, (@iterator + 1));
+}
+
+.creatcolorclasses(button, color);
+
+.button {
+    border: 1px solid #000;
+    color: @color;
+}
