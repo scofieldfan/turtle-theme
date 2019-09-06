@@ -5,9 +5,9 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: {
-        index: "./src/index.js",
-        themea: "./src/index-a.js",
-        themeb: "./src/index-b.js"
+        index: "./src/index.js"
+        // themea: "./src/index-a.js",
+        // themeb: "./src/index-b.js"
     },
     mode: "development",
     devtool: "inline-source-map",
@@ -46,18 +46,7 @@ module.exports = {
             },
             {
                 test: /\.(less|.css)$/,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            // you can specify a publicPath here
-                            // by default it use publicPath in webpackOptions.output
-                            publicPath: "../"
-                        }
-                    },
-                    "css-loader",
-                    "less-loader"
-                ]
+                use: ["style-loader", "css-loader", "less-loader"]
             },
             {
                 test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
